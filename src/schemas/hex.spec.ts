@@ -69,3 +69,28 @@ describe("RGBA to Hexadecimal Conversion", () => {
         expect(() => RGBA2HEX(0, 0, 0, 1.1)).toThrow();
     });
 });
+
+describe("Complex Conversion Tests", () => {
+    it("should convert from HEX to RGBA and back to HEX correctly", () => {
+        const hexColors = [
+            "#ff0000",
+            "#00ff00",
+            "#0000ff",
+            "#ffffff",
+            "#000000",
+            "#808080",
+            "#ffa500",
+            "#ff000080", // with alpha
+            "#00ff0080", // with alpha
+            "#0000ff80"  // with alpha
+        ];
+
+        hexColors.forEach(hex => {
+            const rgba = HEX2RGBA(hex);
+            if (rgba) {
+                const convertedHex = RGBA2HEX(rgba.r, rgba.g, rgba.b, rgba.a);
+                expect(convertedHex).toBe(hex.toLowerCase());
+            }
+        });
+    });
+});
