@@ -1,5 +1,5 @@
 // Regex for parsing RGB and RGBA color strings
-const rgbRegex = /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(0|1|0?\.\d+)\s*)?\)$/;
+export const rgbRegex = /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(0|1|0?\.\d+)\s*)?\)$/;
 
 // Validation function for RGB and RGBA color strings
 export function isRGB(rgb: string): boolean {
