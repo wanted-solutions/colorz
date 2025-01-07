@@ -1,4 +1,3 @@
-import { isRGB, rgbRegex } from "./rgb";
 // Regex for parsing HSL and HSLA strings with flexible spaces
 const hslRegex = /^hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(0|1|0?\.\d+)\s*)?\)$/;
 
@@ -61,28 +60,24 @@ export function HSL2RGBA(hsl: string): { r: number, g: number, b: number, a: num
     return { r, g, b, a };
 }
 
-export function RGBA2HSL(rgba: string): { h: number, s: number, l: number } | null {
-    if (!isRGB(rgba)) {
-        return null;
-    }
+export function RGBA2HSL( r: number, g: number, b: number, a: number ): string | null {
+    const validate = (value: number, max: number) => {
+        if (value < 0 || value > max) {
+            throw new Error("Invalid color value");
+        }
+    };
 
-    const match = rgba.match(rgbRegex)
-    if (!match){
-        return null;
-    }
-
-    let [_, rStr, gStr, bStr, aStr] = match;
-    let r = parseInt(rStr, 10);
-    let g = parseInt(gStr, 10);
-    let b = parseInt(bStr, 10);
-    let a = aStr !== undefined ? parseFloat(aStr) : 1;
-
+    validate(r, 255);
+    validate(g, 255);
+    validate(b, 255);
+    validate(a, 1);
+    
     let h = 0, s = 0 , l = 0;
-
     let rRelative = r/255, gRelative = g/255, bRelative = b/255;
     let maxRgba = Math.max(rRelative, gRelative, bRelative);
     let minRgba = Math.min(rRelative, gRelative, bRelative);
     let delta = maxRgba - minRgba;
+
     l = (maxRgba + minRgba) / 2 * 100;
     s = delta / (1 - Math.abs(2*l - 1)) * 100;
 
@@ -94,5 +89,5 @@ export function RGBA2HSL(rgba: string): { h: number, s: number, l: number } | nu
         h = 60 * ((rRelative - gRelative) / delta + 4)
     }
 
-    return { h, s, l};
+    return `hsla(${h}, ${l}%, ${l}%, ${a})`;
 }
