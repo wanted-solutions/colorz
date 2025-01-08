@@ -108,9 +108,7 @@ describe("Complex Conversion Tests", () => {
         ];
         hslaColors.forEach(hsla => {
             const rgba = HSL2RGBA(hsla);
-            if (rgba) {
-                expect(RGBA2HSL(rgba.r, rgba.g, rgba.b, rgba.a)).toBe(hsla.replace(/\s*,/g, ',').replace(/\(\s*/g, '(').replace(/\s*\)/g, ')'));
-        };
+            expect(RGBA2HSL(rgba.r, rgba.g, rgba.b, rgba.a)).toBe(hsla.replace(/\s*,/g, ',').replace(/\(\s*/g, '(').replace(/\s*\)/g, ')'));
         })
     
     });
