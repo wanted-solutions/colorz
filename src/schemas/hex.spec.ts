@@ -87,10 +87,8 @@ describe("Complex Conversion Tests", () => {
 
         hexColors.forEach(hex => {
             const rgba = HEX2RGBA(hex);
-            if (rgba) {
-                const convertedHex = RGBA2HEX(rgba.r, rgba.g, rgba.b, rgba.a);
+            const convertedHex = RGBA2HEX(rgba.r, rgba.g, rgba.b, rgba.a);
                 expect(convertedHex).toBe(hex.toLowerCase());
-            }
         });
     });
 });

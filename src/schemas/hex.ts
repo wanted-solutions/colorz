@@ -1,5 +1,5 @@
 // Regex for parsing hexadecimal color strings
-const hexRegex = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+const hexRegex = /^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/;
 
 // Validation function for hexadecimal color strings
 export function isHEX(hex: string): boolean {
@@ -14,15 +14,16 @@ export function HEX2RGBA(hex: string): { r: number, g: number, b: number, a: num
 
     hex = hex.replace("#", "");
 
-    if (hex.length === 3) {
+    if (hex.length === 3 || hex.length === 4) {
         hex = hex.split("").map(char => char + char).join("");
     }
 
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-
-    return { r, g, b, a: 1 };
+    let a  = hex.length === 8 ? parseInt(hex.substring(6, 8), 16) : 255;
+    a = a/255;
+    return { r, g, b, a };
 }
 
 // Conversion function from RGBA to hexadecimal
