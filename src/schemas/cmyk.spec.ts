@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isCMYK, CMYK2RGBA } from "./cmyk";
+import { isCMYK, CMYK2RGBA, RGBA2CMYK } from "./cmyk";
 
 describe("CMYK Validation", () => {
     it("should validate correct CMYK strings", () => {
@@ -29,4 +29,18 @@ describe("CMYK to RGBA Conversion", () => {
         expect(CMYK2RGBA("cmyk(0%, 100%, 100%, 0)")).toBeNull();
         expect(CMYK2RGBA("cmyk(0%, 100%, 100%, 0%, 0%)")).toBeNull();
     });
+});
+
+
+describe("RGBA to CMYK Conversion", () => {
+    it("should convert RGBA to CMYK correctly", () => {
+        expect(RGBA2CMYK(255, 0, 0, 1 )).toEqual("0%, 100%, 100%, 0%");
+        expect(RGBA2CMYK( 0, 255, 0, 1 )).toEqual("100%, 0%, 100%, 0%");
+        expect(RGBA2CMYK( 0, 0, 255, 1 )).toEqual("100%, 100%, 0%, 0%");
+        expect(RGBA2CMYK( 255, 255, 0, 1 )).toEqual("0%, 0%, 100%, 0%");
+        expect(RGBA2CMYK( 255, 0, 255, 1 )).toEqual("0%, 100%, 0%, 0%");
+        expect(RGBA2CMYK( 0, 255, 255, 1 )).toEqual("100%, 0%, 0%, 0%");
+        expect(RGBA2CMYK( 0, 0, 0, 1 )).toEqual("0%, 0%, 0%, 100%");
+    });
+
 });
