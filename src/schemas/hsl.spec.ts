@@ -31,15 +31,15 @@ describe("HSL to RGBA Conversion", () => {
     });
 
     it("should return null for invalid HSL strings", () => {
-        expect(HSL2RGBA("hsl(120, 100, 50%)")).toBeNull();
-        expect(HSL2RGBA("hsla(120%, 100%, 50%)")).toBeNull();
-        expect(HSL2RGBA("hsl(120, 100%, 50%, 0.5)")).toBeNull();
-        expect(HSL2RGBA("hsla(120, 100%, 50%)")).toBeNull();
-        expect(HSL2RGBA("hsl(120, 100%, 50%, 0.5, 1)")).toBeNull();
+        expect(() => HSL2RGBA("hsl(120, 100, 50%)")).toThrow();
+        expect(() => HSL2RGBA("hsla(120%, 100%, 50%)")).toThrow();
+        expect(() => HSL2RGBA("hsl(120, 100%, 50%, 0.5)")).toThrow();
+        expect(() => HSL2RGBA("hsla(120, 100%, 50%)")).toThrow();
+        expect(() => HSL2RGBA("hsl(120, 100%, 50%, 0.5, 1)")).toThrow();
     });
 
     it("should handle HSLA without the last parameter correctly", () => {
-        expect(HSL2RGBA("hsla(120, 100%, 50%)")).toBeNull();
+        expect(() => HSL2RGBA("hsla(120, 100%, 50%)")).toThrow();
     });
 });
 

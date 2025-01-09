@@ -25,9 +25,9 @@ describe("CMYK to RGBA Conversion", () => {
     });
 
     it("should return null for invalid CMYK strings", () => {
-        expect(CMYK2RGBA("cmyk(0, 100%, 100%, 0%)")).toBeNull();
-        expect(CMYK2RGBA("cmyk(0%, 100%, 100%, 0)")).toBeNull();
-        expect(CMYK2RGBA("cmyk(0%, 100%, 100%, 0%, 0%)")).toBeNull();
+        expect(() => CMYK2RGBA("cmyk(0, 100%, 100%, 0%)")).toThrow()
+        expect(() => CMYK2RGBA("cmyk(0%, 100%, 100%, 0)")).toThrow()
+        expect(() => CMYK2RGBA("cmyk(0%, 100%, 100%, 0%, 0%)")).toThrow()
     });
 });
 
