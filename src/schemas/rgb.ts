@@ -29,12 +29,12 @@ export function isRGB(rgb: string): boolean {
 // Conversion function from RGB/RGBA to RGBA
 export function RGB2RGBA(rgb: string): { r: number, g: number, b: number, a: number } | null {
     if (!isRGB(rgb)) {
-        return null;
+        throw new Error("Invalid color value");
     }
 
     const match = rgb.match(rgbRegex);
     if (!match) {
-        return null;
+        throw new Error("Invalid color value");
     }
 
     let [_, rStr, gStr, bStr, aStr] = match;

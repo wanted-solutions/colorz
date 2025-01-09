@@ -34,10 +34,10 @@ describe("Hexadecimal to RGBA Conversion", () => {
     });
 
     it("should return null for invalid hexadecimal strings", () => {
-        expect(HEX2RGBA("#ff000")).toBeNull();
-        expect(HEX2RGBA("ff000")).toBeNull();
-        expect(HEX2RGBA("#ff00000")).toBeNull();
-        expect(HEX2RGBA("ff00000")).toBeNull();
+        expect(() => HEX2RGBA("#ff000")).toThrow();
+        expect(() => HEX2RGBA("ff000")).toThrow();
+        expect(() => HEX2RGBA("#ff00000")).toThrow();
+        expect(() => HEX2RGBA("ff00000")).toThrow();
     });
 });
 
