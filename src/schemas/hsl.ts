@@ -59,3 +59,54 @@ export function HSL2RGBA(hsl: string): { r: number, g: number, b: number, a: num
 
     return { r, g, b, a };
 }
+
+export function RGBA2HSL(r: number, g: number, b: number, a: number = 1): string {
+    const validate = (value: number, max: number) => {
+        if (value < 0 || value > max) {
+            throw new Error("Invalid color value");
+        }
+    };
+
+    validate(r, 255);
+    validate(g, 255);
+    validate(b, 255);
+    validate(a, 1);
+
+    let h = 0, s = 0 , l = 0;
+    let rRelative = r/255, gRelative = g/255, bRelative = b/255;
+    let maxRgba = Math.max(rRelative, gRelative, bRelative);
+    let minRgba = Math.min(rRelative, gRelative, bRelative);
+    let delta = maxRgba - minRgba;
+
+    l = (maxRgba + minRgba) / 2;
+    if (l === 0) {
+        s = 0;
+    }
+    else if (l === 1) {
+        s = 1;
+    } else {
+        s = delta / (1 - Math.abs(2*l - 1));
+    }
+
+    if (delta === 0) {
+        h = 0;
+    }
+    else if (maxRgba === rRelative){
+        h = 60 * ((gRelative - bRelative) / delta % 6) 
+    } else if (maxRgba == gRelative) {
+        h = 60 * ((bRelative - rRelative) / delta + 2)
+    } else {
+        h = 60 * ((rRelative - gRelative) / delta + 4)
+    }
+    if (h<0){
+        h = 360 + h;
+    }
+    h = Math.round(h % 360);
+    s = Math.round(s * 100);
+    l = Math.round(l * 100);
+    if (a < 1) {
+        return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+    } else {
+        return `hsl(${h}, ${s}%, ${l}%)`;
+    }
+}
