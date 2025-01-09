@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isCMYK, CMYK2RGBA } from "./cmyk";
+import { isCMYK, CMYK2RGBA, RGBA2CMYK } from "./cmyk";
 
 describe("CMYK Validation", () => {
     it("should validate correct CMYK strings", () => {
@@ -28,5 +28,53 @@ describe("CMYK to RGBA Conversion", () => {
         expect(CMYK2RGBA("cmyk(0, 100%, 100%, 0%)")).toBeNull();
         expect(CMYK2RGBA("cmyk(0%, 100%, 100%, 0)")).toBeNull();
         expect(CMYK2RGBA("cmyk(0%, 100%, 100%, 0%, 0%)")).toBeNull();
+    });
+});
+
+
+describe("RGBA to CMYK Conversion", () => {
+    it("should convert RGBA to CMYK correctly", () => {
+        expect(RGBA2CMYK(255, 0, 0, 1 )).toEqual("cmyk(0%, 100%, 100%, 0%)");
+        expect(RGBA2CMYK( 0, 255, 0, 1 )).toEqual("cmyk(100%, 0%, 100%, 0%)");
+        expect(RGBA2CMYK( 0, 0, 255, 1 )).toEqual("cmyk(100%, 100%, 0%, 0%)");
+        expect(RGBA2CMYK( 255, 255, 0, 1 )).toEqual("cmyk(0%, 0%, 100%, 0%)");
+        expect(RGBA2CMYK( 255, 0, 255, 1 )).toEqual("cmyk(0%, 100%, 0%, 0%)");
+        expect(RGBA2CMYK( 0, 255, 255, 1 )).toEqual("cmyk(100%, 0%, 0%, 0%)");
+        expect(RGBA2CMYK( 0, 0, 0, 1 )).toEqual("cmyk(0%, 0%, 0%, 100%)");
+    });
+
+    it("should return null for invalid RGBA strings", () => {
+        expect(() => RGBA2CMYK(256, 0, 0, 1)).toThrow()
+        expect(() => RGBA2CMYK(0, 256, 0, 1)).toThrow()
+        expect(() => RGBA2CMYK(0, 0, 256, 1)).toThrow()
+        expect(() => RGBA2CMYK(-1, 0, 0, 1)).toThrow()
+        expect(() => RGBA2CMYK(0, -1, 0, 1)).toThrow()
+        expect(() => RGBA2CMYK(0, 0, -1, 1)).toThrow()
+        expect(() => RGBA2CMYK(0, 255, 0, 1.1)).toThrow()
+        expect(() => RGBA2CMYK(0, 0, 255, -1)).toThrow()
+        
+    });
+});
+
+describe("Complex Conversion Tests", () => {
+    it("should convert from CMYK to RGBA and back to HEX correctly", () => {
+        const hexColors = [
+            "cmyk(0%, 100%, 100%, 0%)",
+            "cmyk(100%, 0%, 100%, 0%)",
+            "cmyk(100%, 100%, 0%, 0%)",
+            "cmyk(0%, 0%, 100%, 0%)",
+            "cmyk(0%, 100%, 0%, 0%)",
+            "cmyk(100%, 0%, 0%, 0%)",
+            "cmyk(0%, 0%, 0%, 100%)",
+          
+        ];
+
+        hexColors.forEach(hex => {
+            const rgba = CMYK2RGBA(hex);
+            if (rgba) {
+                const convertedCmyk = RGBA2CMYK(rgba.r, rgba.g, rgba.b, rgba.a);
+                expect(convertedCmyk).toBe(hex.toLowerCase());
+            }
+        });
     });
 });
