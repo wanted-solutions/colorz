@@ -1,3 +1,4 @@
+import { isRGBA } from "./rgba";
 // Regex for parsing HSL and HSLA strings with flexible spaces
 const hslRegex = /^hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(?:,\s*(0|1|0?\.\d+)\s*)?\)$/;
 
@@ -61,16 +62,9 @@ export function HSL2RGBA(hsl: string): { r: number, g: number, b: number, a: num
 }
 
 export function RGBA2HSL(r: number, g: number, b: number, a: number = 1): string {
-    const validate = (value: number, max: number) => {
-        if (value < 0 || value > max) {
-            throw new Error("Invalid color value");
-        }
-    };
-
-    validate(r, 255);
-    validate(g, 255);
-    validate(b, 255);
-    validate(a, 1);
+    if (!isRGBA(r, g, b, a)) {
+        throw new Error("Invalid color value");
+    }
 
     let h = 0, s = 0 , l = 0;
     let rRelative = r/255, gRelative = g/255, bRelative = b/255;

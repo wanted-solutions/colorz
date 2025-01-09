@@ -1,3 +1,4 @@
+import { isRGBA } from "./rgba";
 // Regex for parsing hexadecimal color strings
 const hexRegex = /^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{4}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/;
 
@@ -28,16 +29,9 @@ export function HEX2RGBA(hex: string): { r: number, g: number, b: number, a: num
 
 // Conversion function from RGBA to hexadecimal
 export function RGBA2HEX(r: number, g: number, b: number, a: number = 1): string {
-    const validate = (value: number, max: number) => {
-        if (value < 0 || value > max) {
-            throw new Error("Invalid color value");
-        }
-    };
-
-    validate(r, 255);
-    validate(g, 255);
-    validate(b, 255);
-    validate(a, 1);
+    if (!isRGBA(r, g, b, a)) {
+        throw new Error("Invalid color value");
+    }
 
     const toHex = (value: number) => value.toString(16).padStart(2, "0");
     const alphaHex = a < 1 ? Math.round(a * 255).toString(16).padStart(2, "0") : "";
