@@ -33,16 +33,16 @@ describe("RGB to RGBA Conversion", () => {
     });
 
     it("should return null for invalid RGB strings", () => {
-        expect(RGB2RGBA("rgb(255, 0, 0, 0.5)")).toBeNull();
-        expect(RGB2RGBA("rgba(255, 0, 0)")).toBeNull();
-        expect(RGB2RGBA("rgb(255, 0, 0, 0.5, 1)")).toBeNull();
-        expect(RGB2RGBA("rgb(256, 0, 0)")).toBeNull();
-        expect(RGB2RGBA("rgb(255, 256, 0)")).toBeNull();
-        expect(RGB2RGBA("rgb(255, 0, 256)")).toBeNull();
-        expect(RGB2RGBA("rgba(255, 0, 0, 1.1)")).toBeNull();
+        expect(() => RGB2RGBA("rgb(255, 0, 0, 0.5)")).toThrow();
+        expect(() => RGB2RGBA("rgba(255, 0, 0)")).toThrow();
+        expect(() => RGB2RGBA("rgb(255, 0, 0, 0.5, 1)")).toThrow();
+        expect(() => RGB2RGBA("rgb(256, 0, 0)")).toThrow();
+        expect(() => RGB2RGBA("rgb(255, 256, 0)")).toThrow();
+        expect(() => RGB2RGBA("rgb(255, 0, 256)")).toThrow();
+        expect(() => RGB2RGBA("rgba(255, 0, 0, 1.1)")).toThrow();
     });
 
     it("should handle RGBA without the last parameter correctly", () => {
-        expect(RGB2RGBA("rgba(255, 0, 0)")).toBeNull();
+        expect(() => RGB2RGBA("rgba(255, 0, 0)")).toThrow();
     });
 });

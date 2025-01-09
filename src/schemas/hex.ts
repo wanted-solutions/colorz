@@ -8,9 +8,9 @@ export function isHEX(hex: string): boolean {
 }
 
 // Conversion function from hexadecimal to RGBA
-export function HEX2RGBA(hex: string): { r: number, g: number, b: number, a: number } | null {
+export function HEX2RGBA(hex: string): { r: number, g: number, b: number, a: number } {
     if (!isHEX(hex)) {
-        return null;
+         throw new Error("Invalid color value");
     }
 
     hex = hex.replace("#", "");

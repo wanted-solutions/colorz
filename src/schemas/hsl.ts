@@ -21,12 +21,12 @@ export function isHSL(hsl: string): boolean {
 // Conversion function from HSL/HSLA to RGBA
 export function HSL2RGBA(hsl: string): { r: number, g: number, b: number, a: number } | null {
     if (!isHSL(hsl)) {
-        return null;
+        throw new Error("Invalid color value");
     }
 
     const match = hsl.match(hslRegex);
     if (!match) {
-        return null;
+        throw new Error("Invalid color value");
     }
 
     let [_, hStr, sStr, lStr, aStr] = match;

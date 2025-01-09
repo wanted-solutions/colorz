@@ -9,7 +9,7 @@ export function isCMYK(cmyk: string): boolean {
 // Conversion function from CMYK to RGBA
 export function CMYK2RGBA(cmyk: string): { r: number, g: number, b: number, a: number } | null {
     if (!isCMYK(cmyk)) {
-        return null;
+        throw new Error("Invalid color value");
     }
 
     const match = cmyk.match(cmykRegex);
